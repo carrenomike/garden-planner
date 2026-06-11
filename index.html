@@ -18,80 +18,193 @@
       --color-text-danger: #dc2626;
       --color-border-tertiary: rgba(0,0,0,0.1);
       --color-border-secondary: rgba(0,0,0,0.18);
-      --color-border-primary: rgba(0,0,0,0.28);
       --color-border-success: #86efac;
       --color-border-danger: #fca5a5;
-      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-sans: system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
       --border-radius-md: 8px;
       --border-radius-lg: 12px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
+    html, body {
+      height: 100%;
+      overflow: hidden;
       font-family: var(--font-sans);
       color: var(--color-text-primary);
       background: var(--color-background-tertiary);
-      min-height: 100vh;
     }
 
     .page-header {
+      height: 48px;
       background: var(--color-background-primary);
       border-bottom: 0.5px solid var(--color-border-secondary);
-      padding: 12px 20px;
+      padding: 0 20px;
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-shrink: 0;
     }
-
-    .page-header h1 {
-      font-size: 17px;
-      font-weight: 500;
-    }
+    .page-header h1 { font-size: 17px; font-weight: 500; }
+    .save-indicator { margin-left: auto; font-size: 11px; color: var(--color-text-secondary); opacity: 0; transition: opacity .4s; }
+    .save-indicator.show { opacity: 1; }
 
     .page-body {
-      max-width: 1200px;
-      margin: 0 auto;
+      height: calc(100vh - 48px);
+      display: flex;
+      flex-direction: column;
       background: var(--color-background-primary);
-      min-height: calc(100vh - 49px);
     }
 
-    /* ── app styles ── */
-    .app{display:flex;gap:0;min-height:600px}
-    .sidebar{width:196px;flex-shrink:0;border-right:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;padding:10px;gap:6px;overflow-y:auto}
-    .main{flex:1;display:flex;flex-direction:column;min-width:0}
-    .toolbar{display:flex;align-items:center;gap:8px;padding:8px 10px;border-bottom:0.5px solid var(--color-border-tertiary);flex-wrap:wrap}
-    .beds-area{flex:1;padding:14px;display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start;overflow-y:auto;min-height:500px;background:var(--color-background-secondary)}
-    .panel-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);margin-top:4px}
-    .plant-card{border:1.5px solid var(--color-border-tertiary);border-radius:8px;padding:6px 8px;cursor:grab;background:var(--color-background-primary);margin-bottom:3px;user-select:none;transition:border-color .12s}
-    .plant-card:hover{border-color:var(--color-border-secondary)}
-    .plant-card.dragging-source{opacity:.35}
-    .pname{font-size:13px;font-weight:500;line-height:1.2}
-    .pmeta{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
-    .bed-wrapper{display:inline-flex;flex-direction:column;gap:5px}
-    .bed-title-row{display:flex;align-items:center;gap:6px}
-    .bed-name{font-size:13px;font-weight:500}
-    .bed-del{font-size:11px;color:var(--color-text-secondary);cursor:pointer;padding:1px 6px;border-radius:4px;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary)}
-    .bed-del:hover{color:var(--color-text-danger)}
-    .bed-cv{position:relative;border:3px solid #7a5c18;background:#2e5929;overflow:hidden}
-    .btn{padding:4px 10px;font-size:12px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer;font-family:inherit}
-    .btn:hover{background:var(--color-background-secondary)}
-    .btn.ok{background:var(--color-background-success);color:var(--color-text-success);border-color:var(--color-border-success)}
-    input[type=text],input[type=number],select{font-size:12px;padding:3px 6px;border-radius:5px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);font-family:inherit;width:100%}
-    .frow{display:flex;gap:6px;align-items:center;margin-bottom:5px}
-    .frow label{font-size:12px;color:var(--color-text-secondary);white-space:nowrap;min-width:52px}
-    .modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.38);display:flex;align-items:center;justify-content:center;z-index:300}
-    .modal{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:12px;padding:16px;width:256px}
-    .modal h3{font-size:15px;font-weight:500;margin-bottom:12px}
-    .modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
-    .ctx-menu{position:absolute;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:8px;padding:4px;z-index:200;min-width:130px}
-    .ctx-item{padding:6px 10px;font-size:13px;cursor:pointer;border-radius:5px;color:var(--color-text-primary)}
-    .ctx-item:hover{background:var(--color-background-secondary)}
-    .ctx-item.danger{color:var(--color-text-danger)}
-    .tip{position:absolute;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:6px;padding:4px 8px;font-size:11px;pointer-events:none;z-index:250;white-space:nowrap;line-height:1.5}
-    .leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary);margin-bottom:3px}
-    .leg-sw{width:12px;height:12px;border-radius:50%;flex-shrink:0}
-    .drops{display:flex;gap:1px;margin-left:auto;align-items:center}
+    .app { display: flex; flex: 1; min-height: 0; overflow: hidden; }
+
+    .sidebar {
+      width: 200px;
+      flex-shrink: 0;
+      border-right: 0.5px solid var(--color-border-tertiary);
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      gap: 6px;
+      overflow-y: auto;
+    }
+
+    .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-bottom: 0.5px solid var(--color-border-tertiary);
+      flex-shrink: 0;
+    }
+
+    .beds-area {
+      flex: 1;
+      padding: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: flex-start;
+      align-content: flex-start;
+      overflow-y: auto;
+      background: var(--color-background-secondary);
+    }
+
+    .panel-label {
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--color-text-secondary);
+      margin-top: 4px;
+    }
+
+    .plant-card {
+      border: 1.5px solid var(--color-border-tertiary);
+      border-radius: 8px;
+      padding: 6px 8px;
+      cursor: grab;
+      background: var(--color-background-primary);
+      margin-bottom: 3px;
+      user-select: none;
+      transition: border-color .12s;
+      position: relative;
+    }
+    .plant-card:hover { border-color: var(--color-border-secondary); }
+    .plant-card.dragging-source { opacity: .35; }
+    .plant-card .del-plant {
+      display: none;
+      position: absolute;
+      top: 4px; right: 4px;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      line-height: 1;
+      padding: 1px;
+    }
+    .plant-card:hover .del-plant { display: block; }
+    .plant-card .del-plant:hover { color: var(--color-text-danger); }
+
+    .pname { font-size: 13px; font-weight: 500; line-height: 1.2; }
+    .pmeta { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+    .drops { display: flex; gap: 1px; margin-left: auto; align-items: center; padding-right: 14px; }
+
+    .bed-wrapper { display: inline-flex; flex-direction: column; gap: 5px; }
+    .bed-title-row { display: flex; align-items: center; gap: 6px; }
+    .bed-name { font-size: 13px; font-weight: 500; }
+    .bed-del {
+      font-size: 11px; color: var(--color-text-secondary); cursor: pointer;
+      padding: 1px 6px; border-radius: 4px;
+      border: 0.5px solid var(--color-border-tertiary);
+      background: var(--color-background-primary);
+    }
+    .bed-del:hover { color: var(--color-text-danger); }
+    .bed-cv { position: relative; border: 3px solid #7a5c18; background: #2e5929; overflow: hidden; }
+
+    .btn {
+      padding: 4px 10px; font-size: 12px; border-radius: 6px;
+      border: 0.5px solid var(--color-border-secondary);
+      background: var(--color-background-primary);
+      color: var(--color-text-primary);
+      cursor: pointer; font-family: inherit;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .btn:hover { background: var(--color-background-secondary); }
+    .btn.ok { background: var(--color-background-success); color: var(--color-text-success); border-color: var(--color-border-success); }
+    .btn.full { width: 100%; justify-content: center; margin-top: 4px; }
+
+    input[type=text], input[type=number], select {
+      font-size: 12px; padding: 4px 7px; border-radius: 5px;
+      border: 0.5px solid var(--color-border-secondary);
+      background: var(--color-background-primary);
+      color: var(--color-text-primary);
+      font-family: inherit; width: 100%;
+    }
+    input:focus, select:focus { outline: 2px solid rgba(34,197,94,.4); outline-offset: 1px; }
+
+    .frow { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
+    .frow label { font-size: 12px; color: var(--color-text-secondary); white-space: nowrap; min-width: 56px; }
+    .frow-half { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px; }
+    .frow-half label { font-size: 11px; color: var(--color-text-secondary); display: block; margin-bottom: 2px; }
+
+    .modal-ov {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.38);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 300;
+    }
+    .modal {
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-secondary);
+      border-radius: 12px; padding: 18px; width: 280px;
+    }
+    .modal h3 { font-size: 15px; font-weight: 500; margin-bottom: 14px; }
+    .modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+    .modal-section { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; color: var(--color-text-secondary); margin: 12px 0 6px; }
+
+    .ctx-menu {
+      position: absolute;
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-secondary);
+      border-radius: 8px; padding: 4px; z-index: 200; min-width: 130px;
+    }
+    .ctx-item { padding: 6px 10px; font-size: 13px; cursor: pointer; border-radius: 5px; color: var(--color-text-primary); }
+    .ctx-item:hover { background: var(--color-background-secondary); }
+    .ctx-item.danger { color: var(--color-text-danger); }
+
+    .tip {
+      position: absolute;
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-secondary);
+      border-radius: 6px; padding: 5px 9px; font-size: 11px;
+      pointer-events: none; z-index: 250; white-space: nowrap; line-height: 1.6;
+    }
+
+    .leg-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--color-text-secondary); margin-bottom: 3px; }
+    .leg-sw { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    #empty-msg strong { font-weight: 500; }
   </style>
 </head>
 <body>
@@ -99,20 +212,25 @@
 <div class="page-header">
   <i class="ti ti-plant-2" style="font-size:20px;color:#2e5929" aria-hidden="true"></i>
   <h1>Garden Bed Planner</h1>
+  <span class="save-indicator" id="save-indicator"><i class="ti ti-check" aria-hidden="true"></i> Saved</span>
 </div>
 
 <div class="page-body">
   <div class="app">
+
     <aside class="sidebar">
       <div class="panel-label">Plants</div>
       <div id="plant-palette"></div>
-      <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:8px;margin-top:2px">
+      <button class="btn full" id="add-plant-btn"><i class="ti ti-plus" aria-hidden="true"></i> New plant</button>
+
+      <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:8px;margin-top:6px">
         <div class="panel-label" style="margin-bottom:6px">Zones</div>
         <div class="leg-item"><div class="leg-sw" style="background:rgba(0,0,0,.3);border:1px solid rgba(0,0,0,.15)"></div>Shadow</div>
         <div class="leg-item"><div class="leg-sw" style="background:rgba(34,197,94,.35);border:1.5px solid rgba(34,197,94,.7)"></div>Min spacing</div>
         <div class="leg-item"><div class="leg-sw" style="background:rgba(250,204,21,.25);border:1.5px solid rgba(250,204,21,.65)"></div>Ideal spacing</div>
       </div>
-      <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:8px;margin-top:2px">
+
+      <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:8px;margin-top:4px">
         <div class="panel-label" style="margin-bottom:6px">Water needs</div>
         <div class="leg-item"><i class="ti ti-droplet" style="font-size:13px;color:#93c5fd" aria-hidden="true"></i><span>Low</span></div>
         <div class="leg-item"><i class="ti ti-droplet" style="font-size:13px;color:#3b82f6" aria-hidden="true"></i><i class="ti ti-droplet" style="font-size:13px;color:#3b82f6" aria-hidden="true"></i><span>Moderate</span></div>
@@ -131,11 +249,12 @@
         </div>
       </div>
       <div class="beds-area" id="beds-area">
-        <div id="empty-msg" style="color:var(--color-text-secondary);font-size:13px;margin:auto;text-align:center;padding:40px 20px">
+        <div id="empty-msg" style="color:var(--color-text-secondary);font-size:13px;margin:auto;text-align:center;padding:60px 20px">
           Click <strong>New bed</strong> to start,<br>then drag plants from the sidebar.
         </div>
       </div>
     </div>
+
   </div>
 </div>
 
@@ -143,14 +262,18 @@
 <div id="ghost" style="position:fixed;pointer-events:none;z-index:500;display:none;width:18px;height:18px;border-radius:50%;border:2px solid rgba(0,0,0,.35);background:#fff"></div>
 
 <script>
-const PLANTS=[
-  {id:'cosmos',    name:"Cosmos 'Apricot Lemonade'",   short:'Cosmos',    hMin:36,hMax:60,rMin:6,rI:9,  water:'moderate',type:'annual'},
-  {id:'seaholly',  name:'Sea Holly (Eryngium)',         short:'Sea Holly',  hMin:6, hMax:12,rMin:9,rI:12, water:'low',     type:'perennial'},
-  {id:'salvia',    name:"Salvia 'White Profusion'",     short:'Salvia',     hMin:24,hMax:36,rMin:8,rI:10, water:'moderate',type:'perennial'},
-  {id:'gaura',     name:"Gaura 'Whirling Butterflies'", short:'Gaura',      hMin:12,hMax:24,rMin:9,rI:12, water:'low',     type:'perennial'},
-  {id:'scabiosa',  name:'Scabiosa',                     short:'Scabiosa',   hMin:12,hMax:18,rMin:5,rI:6,  water:'moderate',type:'perennial'},
-  {id:'bupleurum', name:'Bupleurum rotundifolium',       short:'Bupleurum',  hMin:12,hMax:24,rMin:3,rI:5,  water:'moderate',type:'annual'},
+const BUILT_IN_PLANTS=[
+  {id:'cosmos',    name:"Cosmos 'Apricot Lemonade'",   short:'Cosmos',    hMin:36,hMax:60,rMin:6,rI:9,  water:'moderate',type:'annual',    custom:false},
+  {id:'seaholly',  name:'Sea Holly (Eryngium)',         short:'Sea Holly',  hMin:6, hMax:12,rMin:9,rI:12, water:'low',     type:'perennial', custom:false},
+  {id:'salvia',    name:"Salvia 'White Profusion'",     short:'Salvia',     hMin:24,hMax:36,rMin:8,rI:10, water:'moderate',type:'perennial', custom:false},
+  {id:'gaura',     name:"Gaura 'Whirling Butterflies'", short:'Gaura',      hMin:12,hMax:24,rMin:9,rI:12, water:'low',     type:'perennial', custom:false},
+  {id:'scabiosa',  name:'Scabiosa',                     short:'Scabiosa',   hMin:12,hMax:18,rMin:5,rI:6,  water:'moderate',type:'perennial', custom:false},
+  {id:'bupleurum', name:'Bupleurum rotundifolium',       short:'Bupleurum',  hMin:12,hMax:24,rMin:3,rI:5,  water:'moderate',type:'annual',    custom:false},
 ];
+
+let PLANTS=[...BUILT_IN_PLANTS];
+let customPlantSeq=1;
+
 const DIRS=['N','NE','E','SE','S','SW','W','NW'];
 const DIR_ANGLE={N:270,NE:315,E:0,SE:45,S:90,SW:135,W:180,NW:225};
 const PPF=64;
@@ -160,6 +283,45 @@ const DROP_COLORS={low:'#93c5fd',moderate:'#3b82f6',high:'#1d4ed8'};
 const ghost=document.getElementById('ghost');
 
 let beds=[],bedSeq=1,sunOn=true,dragNew=null,dragMoved=null,ctxOpen=null;
+let saveTimer=null;
+
+function saveState(){
+  try{
+    localStorage.setItem('gp_customPlants', JSON.stringify(PLANTS.filter(p=>p.custom)));
+    localStorage.setItem('gp_customSeq', customPlantSeq);
+    localStorage.setItem('gp_bedSeq', bedSeq);
+    localStorage.setItem('gp_beds', JSON.stringify(beds.map(b=>({
+      id:b.id, name:b.name, shape:b.shape,
+      wFt:b.wFt, lFt:b.lFt, sunDir:b.sunDir,
+      plants:b.plants
+    }))));
+    flashSaved();
+  }catch(e){}
+}
+
+let saveFlashTimer=null;
+function flashSaved(){
+  const el=document.getElementById('save-indicator');
+  el.classList.add('show');
+  clearTimeout(saveFlashTimer);
+  saveFlashTimer=setTimeout(()=>el.classList.remove('show'),1800);
+}
+
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(saveState,600);
+}
+
+function loadState(){
+  try{
+    const cp=JSON.parse(localStorage.getItem('gp_customPlants')||'[]');
+    PLANTS=[...BUILT_IN_PLANTS,...cp];
+    customPlantSeq=parseInt(localStorage.getItem('gp_customSeq')||'1');
+    bedSeq=parseInt(localStorage.getItem('gp_bedSeq')||'1');
+    const savedBeds=JSON.parse(localStorage.getItem('gp_beds')||'[]');
+    savedBeds.forEach(b=>makeBed(b));
+  }catch(e){}
+}
 
 function dropHTML(water){
   const n=DROP_COUNTS[water]||1,c=DROP_COLORS[water]||'#3b82f6';
@@ -168,14 +330,74 @@ function dropHTML(water){
 
 function buildPalette(){
   const el=document.getElementById('plant-palette');
+  el.innerHTML='';
   PLANTS.forEach(p=>{
     const c=document.createElement('div');
     c.className='plant-card';c.dataset.pid=p.id;
     const avgH=Math.round((p.hMin+p.hMax)/2);
-    c.innerHTML=`<div style="display:flex;align-items:center;gap:0"><span class="pname">${p.short}</span><span class="drops">${dropHTML(p.water)}</span></div><div class="pmeta">${avgH}" tall &middot; ${p.rMin*2}&ndash;${p.rI*2}" diam. &middot; ${p.type}</div>`;
-    c.addEventListener('mousedown',e=>startDragNew(e,p));
+    c.innerHTML=`<div style="display:flex;align-items:center"><span class="pname">${p.short}</span><span class="drops">${dropHTML(p.water)}</span></div><div class="pmeta">${avgH}" tall &middot; ${p.rMin*2}&ndash;${p.rI*2}" diam. &middot; ${p.type}</div>${p.custom?`<span class="del-plant" data-pid="${p.id}" title="Remove plant"><i class="ti ti-x" aria-hidden="true"></i></span>`:''}`;
+    c.addEventListener('mousedown',e=>{if(e.target.closest('.del-plant'))return;startDragNew(e,p);});
     el.appendChild(c);
   });
+  el.querySelectorAll('.del-plant').forEach(btn=>{
+    btn.addEventListener('click',e=>{e.stopPropagation();deletePlant(btn.dataset.pid);});
+  });
+}
+
+function deletePlant(id){
+  PLANTS=PLANTS.filter(p=>p.id!==id);
+  buildPalette();
+  saveState();
+}
+
+function showAddPlantModal(){
+  closeCtx();
+  document.getElementById('modal-root').innerHTML=`<div class="modal-ov" id="mov"><div class="modal">
+    <h3>New plant</h3>
+    <div class="frow"><label>Full name</label><input type="text" id="ap-name" placeholder="e.g. Black-eyed Susan"></div>
+    <div class="frow"><label>Short name</label><input type="text" id="ap-short" placeholder="e.g. B-eyed Susan" maxlength="14"></div>
+    <div class="modal-section">Height (inches)</div>
+    <div class="frow-half">
+      <div><label>Min</label><input type="number" id="ap-hmin" value="12" min="1" max="240"></div>
+      <div><label>Max</label><input type="number" id="ap-hmax" value="24" min="1" max="240"></div>
+    </div>
+    <div class="modal-section">Spacing diameter (inches)</div>
+    <div class="frow-half">
+      <div><label>Minimum</label><input type="number" id="ap-rmin" value="12" min="1" max="120"></div>
+      <div><label>Ideal</label><input type="number" id="ap-rideal" value="18" min="1" max="120"></div>
+    </div>
+    <div class="modal-section">Details</div>
+    <div class="frow"><label>Water</label><select id="ap-water"><option value="low">Low</option><option value="moderate" selected>Moderate</option><option value="high">High</option></select></div>
+    <div class="frow"><label>Type</label><select id="ap-type"><option value="annual">Annual</option><option value="perennial" selected>Perennial</option><option value="tender perennial">Tender perennial</option><option value="biennial">Biennial</option></select></div>
+    <div class="modal-btns">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn ok" onclick="doAddPlant()">Add plant</button>
+    </div>
+  </div></div>`;
+  document.getElementById('mov').addEventListener('mousedown',e=>{if(e.target.id==='mov')closeModal();});
+  document.getElementById('ap-name').focus();
+}
+
+function doAddPlant(){
+  const name=document.getElementById('ap-name').value.trim();
+  const short=document.getElementById('ap-short').value.trim()||name.split(' ')[0];
+  if(!name){document.getElementById('ap-name').focus();return;}
+  const hMin=Math.max(1,parseInt(document.getElementById('ap-hmin').value)||12);
+  const hMax=Math.max(hMin,parseInt(document.getElementById('ap-hmax').value)||24);
+  const dMin=Math.max(1,parseInt(document.getElementById('ap-rmin').value)||12);
+  const dIdeal=Math.max(dMin,parseInt(document.getElementById('ap-rideal').value)||18);
+  PLANTS.push({
+    id:'custom-'+(customPlantSeq++),
+    name,short,hMin,hMax,
+    rMin:Math.round(dMin/2),
+    rI:Math.round(dIdeal/2),
+    water:document.getElementById('ap-water').value,
+    type:document.getElementById('ap-type').value,
+    custom:true,
+  });
+  closeModal();
+  buildPalette();
+  saveState();
 }
 
 function showModal(){
@@ -212,6 +434,7 @@ function doCreate(){
   if(shape==='pill-v'&&lFt<wFt){[wFt,lFt]=[lFt,wFt];}
   closeModal();
   makeBed({id:bedSeq++,name,shape,wFt,lFt,sunDir,plants:[]});
+  saveState();
 }
 
 function makeBed(bed){
@@ -265,14 +488,20 @@ function makeBed(bed){
   wrap.appendChild(titleRow);wrap.appendChild(cv);
   document.getElementById('beds-area').appendChild(wrap);
   bed.cv=cv;
+
+  if(bed.plants.length)renderBed(bed);
 }
 
-function setSun(id,dir){const b=beds.find(x=>x.id===id);if(b){b.sunDir=dir;renderBed(b);}}
+function setSun(id,dir){
+  const b=beds.find(x=>x.id===id);
+  if(b){b.sunDir=dir;renderBed(b);saveState();}
+}
 
 function removeBed(id){
   const i=beds.findIndex(x=>x.id===id);if(i<0)return;
   beds[i].cv?.closest('.bed-wrapper')?.remove();beds.splice(i,1);
-  if(!beds.length)document.getElementById('beds-area').innerHTML='<div id="empty-msg" style="color:var(--color-text-secondary);font-size:13px;margin:auto;text-align:center;padding:40px 20px">Click <strong>New bed</strong> to start,<br>then drag plants from the sidebar.</div>';
+  if(!beds.length)document.getElementById('beds-area').innerHTML='<div id="empty-msg" style="color:var(--color-text-secondary);font-size:13px;margin:auto;text-align:center;padding:60px 20px">Click <strong>New bed</strong> to start,<br>then drag plants from the sidebar.</div>';
+  saveState();
 }
 
 function pxPerIn(bed){return bed.wPx/(bed.wFt*12);}
@@ -361,7 +590,9 @@ function showCtx(e,bed,i){
   menu.style.left=(e.clientX-rect.left)+'px';menu.style.top=(e.clientY-rect.top)+'px';
   menu.innerHTML=`<div class="ctx-item" style="pointer-events:none;font-weight:500;color:var(--color-text-secondary);font-size:12px">${p?p.short:''}</div><div class="ctx-item danger" id="ctx-del">Delete plant</div>`;
   bed.cv.appendChild(menu);ctxOpen={el:menu,bed,i};
-  document.getElementById('ctx-del').addEventListener('click',()=>{bed.plants.splice(i,1);renderBed(bed);closeCtx();});
+  document.getElementById('ctx-del').addEventListener('click',()=>{
+    bed.plants.splice(i,1);renderBed(bed);closeCtx();saveState();
+  });
   setTimeout(()=>document.addEventListener('mousedown',ctxOutside),10);
 }
 function ctxOutside(e){if(ctxOpen&&!ctxOpen.el.contains(e.target))closeCtx();}
@@ -393,7 +624,7 @@ document.addEventListener('mousemove',e=>{
 });
 
 document.addEventListener('mouseup',e=>{
-  if(dragMoved){dragMoved=null;return;}
+  if(dragMoved){dragMoved=null;scheduleSave();return;}
   if(!dragNew)return;
   ghost.style.display='none';
   document.querySelectorAll('.plant-card').forEach(c=>c.classList.remove('dragging-source'));
@@ -405,13 +636,17 @@ document.addEventListener('mouseup',e=>{
       const rect=cv.getBoundingClientRect();
       bed.plants.push({plantId:dragNew.id,x:e.clientX-rect.left,y:e.clientY-rect.top});
       renderBed(bed);
+      scheduleSave();
     }
   }
   dragNew=null;
 });
 
 document.getElementById('new-bed-btn').addEventListener('click',showModal);
+document.getElementById('add-plant-btn').addEventListener('click',showAddPlantModal);
 document.getElementById('sun-toggle').addEventListener('change',e=>{sunOn=e.target.checked;beds.forEach(renderBed);});
+
+loadState();
 buildPalette();
 </script>
 </body>
